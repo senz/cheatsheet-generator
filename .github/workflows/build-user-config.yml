@@ -99,7 +99,7 @@ jobs:
         run: |
             ls -l "${GITHUB_WORKSPACE}/${{ inputs.config_path }}/${{ env.config_file_name }}"
             ls -l "${{ env.cheatsheet_dir }}/config.yml"
-            ls -l"${GITHUB_WORKSPACE}/${{ inputs.config_path }}/"
+            ls -l "${GITHUB_WORKSPACE}/${{ inputs.config_path }}/"
             ls -l "${{ env.cheatsheet_dir }}"
         
       - run: npm ci
