@@ -1,0 +1,30 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "fileMatch": ["cheatsheet-build.yaml"],
+  "$id": "https://github.com/senz/cheatsheet-generator",
+  "type": "object",
+  "properties": {
+    "include": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "config": {
+            "description": "Path to the YAML config file.",
+            "type": "string"
+          },
+          "config-name": {
+            "description": "Human readable name of the config file.",
+            "type": "string"
+          },
+          "artifact-name": {
+            "description": "Name of the artifact to be created by ci.",
+            "type": "string"
+          }
+        },
+        "required": ["config", "config-name"]
+      }
+    }
+  },
+  "required": ["include"]
+}
