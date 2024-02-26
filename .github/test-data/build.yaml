@@ -1,0 +1,6 @@
+# yaml-language-server: $schema=https://github.com/senz/cheatsheet-generator/raw/ea65c9e8b3d436d33fe3b0a69e5c89cf044df464/build-schema.json
+---
+include:
+  - config: config.example.yml
+    config-name: Example config
+    artifact-name: example-cheatsheet
