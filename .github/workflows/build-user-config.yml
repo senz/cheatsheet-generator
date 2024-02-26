@@ -92,14 +92,14 @@ jobs:
       - name: symlink config
         working-directory: ${{ env.base_dir }}
         run: |
-            ln -sv ${{ env.config_file_name }}" "${{ env.cheatsheet_dir }}/config.yml"
+            ln -sv "${GITHUB_WORKSPACE}/${{ inputs.config_path }}/${{ env.config_file_name }}" "${{ env.cheatsheet_dir }}/config.yml"
       
       - name: Debug config
         working-directory: ${{ env.base_dir }}
         run: |
             ls -l "${GITHUB_WORKSPACE}/${{ inputs.config_path }}/${{ env.config_file_name }}"
             ls -l "${{ env.cheatsheet_dir }}/config.yml"
-            ls -l "${GITHUB_WORKSPACE}/${{ inputs.config_path }}/"
+            ls -l"${GITHUB_WORKSPACE}/${{ inputs.config_path }}/"
             ls -l "${{ env.cheatsheet_dir }}"
         
       - run: npm ci
