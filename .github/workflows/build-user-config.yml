@@ -98,6 +98,8 @@ jobs:
         working-directory: ${{ env.base_dir }}
 
       - run: npm run build
+        env:
+          NODE_OPTIONS: "--openssl-legacy-provider"
         working-directory: ${{ env.base_dir }}
 
       - name: Archive (${{ env.config_name }})
