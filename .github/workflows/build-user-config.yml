@@ -76,19 +76,19 @@ jobs:
       #       cp -R ${{ inputs.config_path }}/* "${{ env.base_dir }}/${{ inputs.config_path }}/"
       #     fi
 
-      - uses: actions/setup-node@v4
-        with:
-          node-version: 20.11.1
-          cache: npm
-          cache-dependency-path: ${{ env.base_dir }}/package-lock.json
-
       - name: Checkout Cheatsheet
         uses: actions/checkout@v4
         with:
           repository: senz/cheatsheet-generator
           path: ${{ env.cheatsheet_dir }}
-          # ref: ${{ env.ch_version }} 
-        
+          # ref: ${{ env.ch_version }}
+      
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20.11.1
+          cache: npm
+          cache-dependency-path: ${{ env.cheatsheet_dir }}/package-lock.json
+
       - name: symlink config
         working-directory: ${{ env.base_dir }}
         run: |
@@ -103,12 +103,12 @@ jobs:
             ls -l "${{ env.cheatsheet_dir }}"
         
       - run: npm ci
-        working-directory: ${{ env.base_dir }}
+        working-directory: ${{ env.cheatsheet_dir }}
 
       - run: npm run build
         env:
           NODE_OPTIONS: "--openssl-legacy-provider"
-        working-directory: ${{ env.base_dir }}
+        working-directory: ${{ env.cheatsheet_dir }}
 
       - name: Archive (${{ env.config_name }})
         uses: actions/upload-artifact@v4
