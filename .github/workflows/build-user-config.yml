@@ -5,7 +5,7 @@ on:
     inputs:
       build_matrix_path:
         description: "Path to the build matrix file"
-        default: "build.yaml"
+        default: "cheatsheet-build.yaml"
         required: false
         type: string
       config_path:
@@ -15,7 +15,7 @@ on:
         type: string
       archive_name:
         description: "Archive output file name"
-        default: "cheatsheet"
+        default: "cheatsheets"
         required: false
         type: string
 
@@ -96,6 +96,7 @@ jobs:
       
       - name: Debug config
         working-directory: ${{ env.base_dir }}
+        if: ${{ runner.debug }}
         run: |
             ls -l "${GITHUB_WORKSPACE}/${{ inputs.config_path }}/${{ env.config_file_name }}"
             ls -l "${{ env.cheatsheet_dir }}/config.yml"
