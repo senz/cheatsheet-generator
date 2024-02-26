@@ -5,7 +5,7 @@ on:
     inputs:
       build_matrix_path:
         description: "Path to the build matrix file"
-        default: "build.yaml"
+        default: "cheatsheet-build.yaml"
         required: false
         type: string
       config_path:
@@ -15,7 +15,7 @@ on:
         type: string
       archive_name:
         description: "Archive output file name"
-        default: "cheatsheet"
+        default: "cheatsheets"
         required: false
         type: string
 
@@ -76,29 +76,40 @@ jobs:
       #       cp -R ${{ inputs.config_path }}/* "${{ env.base_dir }}/${{ inputs.config_path }}/"
       #     fi
 
-      - uses: actions/setup-node@v4
-        with:
-          node-version: 20.11.1
-          cache: npm
-          cache-dependency-path: ${{ env.base }}/package-lock.json
-
       - name: Checkout Cheatsheet
         uses: actions/checkout@v4
         with:
           repository: senz/cheatsheet-generator
           path: ${{ env.cheatsheet_dir }}
-          # ref: ${{ env.ch_version }} 
-        
+          # ref: ${{ env.ch_version }}
+      
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20.11.1
+          cache: npm
+          cache-dependency-path: ${{ env.cheatsheet_dir }}/package-lock.json
+
       - name: symlink config
         working-directory: ${{ env.base_dir }}
         run: |
-          ln -sv "${{ inputs.config_path }}/${{ env.config_file_name }}" "${{ env.cheatsheet_dir }}/config.yml"
-
-      - run: npm ci
+            ln -sv "${GITHUB_WORKSPACE}/${{ inputs.config_path }}/${{ env.config_file_name }}" "${{ env.cheatsheet_dir }}/config.yml"
+      
+      - name: Debug config
         working-directory: ${{ env.base_dir }}
+        if: ${{ runner.debug }}
+        run: |
+            ls -l "${GITHUB_WORKSPACE}/${{ inputs.config_path }}/${{ env.config_file_name }}"
+            ls -l "${{ env.cheatsheet_dir }}/config.yml"
+            ls -l "${GITHUB_WORKSPACE}/${{ inputs.config_path }}/"
+            ls -l "${{ env.cheatsheet_dir }}"
+        
+      - run: npm ci
+        working-directory: ${{ env.cheatsheet_dir }}
 
       - run: npm run build
-        working-directory: ${{ env.base_dir }}
+        env:
+          NODE_OPTIONS: "--openssl-legacy-provider"
+        working-directory: ${{ env.cheatsheet_dir }}
 
       - name: Archive (${{ env.config_name }})
         uses: actions/upload-artifact@v4

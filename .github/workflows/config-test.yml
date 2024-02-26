@@ -5,15 +5,8 @@ on:
 permissions: read-all
 jobs:
   build:
-    runs-on: ubuntu-latest
-
-    steps:
-      - name: Checkout repository
-        uses: actions/checkout@v4
-
-      - name: Run build-user-config workflow
-        uses: ./.github/workflows/build-user-config.yml
-        with:
-          build_matrix_path: .github/test-data/build.yaml
-          config_path: .github/test-data/config
-          archive_name: example-cheatsheet
+    uses: ./.github/workflows/build-user-config.yml
+    with:
+      build_matrix_path: .github/test-data/build.yaml
+      config_path: .github/test-data/config
+      archive_name: example-cheatsheet
