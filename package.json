@@ -13,6 +13,6 @@
     "sanitize-filename": "^1.6.3",
     "webpack": "^5.90.3",
     "webpack-cli": "^5.1.4",
-    "yaml": "^2.4.0"
+    "yaml": "^2.4.2"
   }
 }
